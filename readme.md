@@ -1,2 +1,2 @@
-# meteor-boilerplate
- Boilerplate for React and user authentication
+# Notes
+Application for creating and keeping track of Notes
