@@ -18,7 +18,8 @@ Meteor.methods({
       updatedAt: moment().valueOf()
     })
   },
-    "notes.remove"(_id) {
+
+  "notes.remove"(_id) {
       if(!this.userId){
         throw new Meteor.Error("Not Authorized");
       }
@@ -29,5 +30,36 @@ Meteor.methods({
         }
       }).validate({_id});
       Notes.remove({_id, userId: this.userId});
+  },
+
+  "notes.update"(_id, updates) {
+    //Validation
+    if(!this.userId) {
+      throw new Meteor.Error("Not Authorized");
+    }
+    new SimpleSchema({
+      _id: {
+        type: String,
+        min: 1
+      },
+      title: {
+        type: String,
+        optional: true
+      },
+      body: {
+        type: String,
+        optional: true
+      }
+    }).validate({
+      _id,
+      ...updates
+    });
+    //Updating the note
+    Notes.update(_id, {
+      $set: {
+        updatedAt: moment().valueOf(),
+        ...updates
+      }
+    })
   }
 });
