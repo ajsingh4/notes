@@ -10,11 +10,18 @@ import PrivateHeader from "./PrivateHeader";
 configure({ adapter: new Adapter() });
 
 if(Meteor.isClient) {
-  decribe("PrivateHeader", function() {
-    it("should set button text next to logout", function() {
+  describe("PrivateHeader", function() {
+    it("should set button text to logout", function() {
       const wrapper = mount(<PrivateHeader title="Some title"/>);
       const buttonText = wrapper.find("button").text();
       expect(buttonText).toBe("Logout");
+    });
+
+    it("should use title prop as h1 text", function() {
+      const title = "Test title here";
+      const wrapper = mount(<PrivateHeader title={title}/>);
+      const h1Text = wrapper.find("h1").text();
+      expect(h1Text).toBe(title)
     });
   });
 }
