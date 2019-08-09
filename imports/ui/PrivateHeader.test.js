@@ -5,7 +5,7 @@ import ReactTestUtils from "react-dom/test-utils";
 
 import Adapter from "enzyme-adapter-react-16";
 import {configure, mount} from "enzyme";
-import PrivateHeader from "./PrivateHeader";
+import {PrivateHeader} from "./PrivateHeader";
 
 configure({ adapter: new Adapter() });
 
