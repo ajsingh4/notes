@@ -15,6 +15,10 @@ export const NoteListHeader = (props) => {
   )
 };
 
+NoteListHeader.propTypes = {
+  meteorCall: PropTypes.func.isRequired
+};
+
 //createContainer wraps that function in tracker.autorun
 export default createContainer(() => {
   return {
