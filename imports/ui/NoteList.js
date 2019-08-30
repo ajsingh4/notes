@@ -6,6 +6,7 @@ import {Notes} from "../api/notes";
 import NoteListHeader from "./NoteListHeader";
 import NoteListItem from "./NoteListItem";
 import NoteListEmptyItem from "./NoteListEmptyItem";
+import {Session} from "meteor/session";
 
 export const NoteList = (props) => {
   //If there exists a note, then render information pertaining to that note
@@ -13,7 +14,6 @@ export const NoteList = (props) => {
     return (
       <div>
         <NoteListHeader/>
-        {}
         {/*Mapping the array of notes as a NoteListItem to be rendered*/}
         {props.notes.map((note) => {
           return (
@@ -39,9 +39,19 @@ NoteList.proptypes = {
 };
 
 export default createContainer(() => {
+  //Get value of selectedNoteId, rerenders list everytime the selectedNoteId
+  //changes or query for all notes changes
+  const selectedNoteId = Session.get("selectedNoteId");
   Meteor.subscribe("notes");
-
   return {
-    notes: Notes.find().fetch()
+    //Passing in function into map to see if note is selected
+    notes: Notes.find().fetch().map((note) => {
+      return {
+        //Spread operator used to keep everything note has
+        ...note,
+        //Checking if _id = selectedNoteId
+        selected: note._id === selectedNoteId
+      };
+    })
   };
 }, NoteList);
